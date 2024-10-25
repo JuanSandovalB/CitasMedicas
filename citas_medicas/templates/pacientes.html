@@ -1,0 +1,62 @@
+{% extends 'base.html' %} <!-- Indica que esta plantilla extiende de 'base.html', heredando su estructura básica -->
+
+{% block title %}Gestión de Pacientes{% endblock %} <!-- Establece el título específico para esta página como "Gestión de Pacientes" -->
+
+{% block content %}
+<h2>Lista de Pacientes</h2> <!-- Título principal para la sección de lista de pacientes -->
+
+{% if request.args.get('mensaje') %}
+<!-- Verifica si hay un mensaje de error en los parámetros de la solicitud (generalmente pasado con la redirección) -->
+<p style="color: red;">{{ request.args.get('mensaje') }}</p> <!-- Muestra el mensaje en rojo si existe -->
+{% endif %}
+
+<table>
+    <tr>
+        <th>ID</th> <!-- Encabezado para la columna ID del paciente -->
+        <th>Nombre</th> <!-- Encabezado para la columna Nombre del paciente -->
+        <th>Edad</th> <!-- Encabezado para la columna Edad del paciente -->
+        <th>Teléfono</th> <!-- Encabezado para la columna Teléfono del paciente -->
+        <th>Email</th>
+        <th>Direccion</th>
+        <th>Acciones</th> <!-- Encabezado para la columna de acciones -->
+
+    </tr>
+    {% for paciente in pacientes %}
+    <!-- Itera sobre la lista de pacientes -->
+    <tr>
+        <td>{{ paciente.id }}</td> <!-- Muestra el ID del paciente -->
+        <td>{{ paciente.nombre }}</td> <!-- Muestra el nombre del paciente -->
+        <td>{{ paciente.edad }}</td> <!-- Muestra la edad del paciente -->
+        <td>{{ paciente.telefono }}</td> <!-- Muestra el teléfono del paciente -->
+        <td>{{ paciente.email }}</td>
+        <td>{{ paciente.direccion }}</td>
+        <td>
+            <form action="{{ url_for('eliminar_paciente_web', id=paciente.id) }}" method="POST" style="display:inline;">
+                <!-- Formulario para eliminar un paciente, que envía una solicitud POST a la ruta 'eliminar_paciente_web' -->
+                <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este paciente?');">Eliminar</button>
+                <!-- Botón para enviar el formulario y eliminar el paciente, con un mensaje de confirmación antes de proceder -->
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Agregar Paciente</h2> <!-- Título principal para la sección de agregar un nuevo paciente -->
+<form action="{{ url_for('pacientes_web') }}" method="POST">
+    <!-- Formulario para agregar un nuevo paciente, que envía una solicitud POST a la ruta 'pacientes_web' -->
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required> <!-- Campo de entrada para el nombre del paciente -->
+
+    <label for="edad">Edad:</label>
+    <input type="number" id="edad" name="edad" required> <!-- Campo de entrada para la edad del paciente -->
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" name="telefono" required> <!-- Campo de entrada para el teléfono del paciente -->
+    <label for="email">Correo</label>
+    <input type="email" id="email" name="email" required>
+    <label for="direccion">Direccion</label>
+    <input type="text" id="direccion" name="direccion" required>
+
+    <button type="submit">Agregar</button> <!-- Botón para enviar el formulario y agregar el paciente -->
+</form>
+{% endblock %}

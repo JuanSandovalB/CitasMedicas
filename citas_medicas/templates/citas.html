@@ -1,0 +1,84 @@
+{% extends 'base.html' %} <!-- Indica que esta plantilla hereda de 'base.html' -->
+
+{% block title %}Gestión de Citas Médicas{% endblock %} <!-- Establece el título de la página específica para esta plantilla -->
+
+{% block content %}
+<h2>Lista de Citas Médicas</h2> <!-- Título para la sección de lista de citas médicas -->
+<table>
+    <tr>
+        <!-- Encabezados de la tabla -->
+        <th>ID</th>
+        <th>Paciente</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Motivo</th>
+        <th>Acompañante</th>
+        <th>Obervaciones</th>
+        <th>Acciones</th>
+    </tr>
+    {% for cita in citas %}
+    <!-- Itera sobre cada cita en la lista de citas -->
+    <tr>
+        <td>{{ cita.id }}</td> <!-- Muestra el ID de la cita -->
+        <td>
+            {% for paciente in pacientes %}
+                <!-- Itera sobre cada paciente en la lista de pacientes -->
+                {% if paciente.id == cita.paciente_id %}
+                    {{ paciente.nombre }} <!-- Muestra el nombre del paciente asociado a la cita -->
+                {% endif %}
+            {% endfor %}
+        </td>
+        <td>{{ cita.fecha }}</td> <!-- Muestra la fecha de la cita -->
+        <td>{{ cita.hora }}</td> <!-- Muestra la hora de la cita -->
+        <td>{{ cita.motivo }}</td>
+        <td>{{ cita.acompa }}</td>
+        <td>{{ cita.obser }}</td> <!-- Muestra el motivo de la cita -->
+        <td>
+            <!-- Formulario para eliminar una cita -->
+            <form action="{{ url_for('eliminar_cita_web', id=cita.id) }}" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta cita?');">Eliminar</button> <!-- Botón para enviar el formulario con confirmación -->
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Agregar Cita Médica</h2> <!-- Título para la sección de agregar citas -->
+<form action="{{ url_for('citas_web') }}" method="POST">
+    <!-- Formulario para agregar una nueva cita -->
+    <label for="paciente_id">Paciente:</label>
+    <select id="paciente_id" name="paciente_id" required>
+        <option value="">--Selecciona un Paciente--</option> <!-- Opción predeterminada para seleccionar un paciente -->
+        {% for paciente in pacientes %}
+            <!-- Itera sobre cada paciente para crear opciones en el select -->
+            <option value="{{ paciente.id }}">{{ paciente.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha" required> <!-- Campo para ingresar la fecha de la cita -->
+
+    <label for="hora">Hora:</label>
+    <input type="time" id="hora" name="hora" required> <!-- Campo para ingresar la hora de la cita -->
+
+    <label for="motivo">Motivo:</label>
+    <select id="motivo" name="motivo" required>
+        <option> Escoja un motivo</option>
+        <option value="Odontologia">Odontologica</option>
+        <option value="Medicina General" >Medicina General</option>
+        <option value="Urgencia">Urgencia</option>
+        <option value="Cardiologia">Cardiologia</option>
+        <option value="Radiografia">Radiografia</option>
+
+      </select>
+
+     
+    
+    <label for="acompa">Acompañante:</label>
+    <input type="texto" id="acompa" name="acompa" required>
+
+    <label for="obser">Obervaciones:</label>
+    <input type="texto" id="obser" name="obser" required>
+    <button type="submit">Agregar</button> <!-- Botón para enviar el formulario y agregar la cita -->
+</form>
+{% endblock %}

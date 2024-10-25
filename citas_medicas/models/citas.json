@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "paciente_id": 3,
+        "fecha": "2024-09-12",
+        "hora": "09:14",
+        "motivo": "Odontologia",
+        "acompa": "asdsad",
+        "obser": "Tiene como ganas de irse"
+    }
+]

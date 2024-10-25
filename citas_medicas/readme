@@ -1,0 +1,61 @@
+/CITAS_MEDICAS
+│
+├── app.py
+│
+├── models
+│   ├── pacientes.json
+│   └── citas.json
+│
+├── templates
+│   ├── base.html
+│   ├── index.html
+│   ├── pacientes.html
+│   └── citas.html
+│
+└── static
+    └── styles.css
+
+## Ejecutar la APP
+python app.py
+________________________________________________________________________
+
+### Instalación del BE Flask
+
+## entorno virtual:
+python -m venv venv
+
+## Activar el entorno virtual:
+venv\Scripts\activate
+
+## Instalar Flask:
+pip install flask
+
+________________________________________________________________________
+CRUD APIRESTFUL
+
+### Obtener Pacientes (GET)
+http://localhost:5000/api/pacientes
+
+### Crear Paciente (POST)
+
+URL: http://127.0.0.1:5000/api/pacientes
+Headers: Content-Type: application/json
+Body (raw JSON):
+
+{
+  "nombre": "Jose Castro",
+  "edad": 30,
+  "telefono": "1234567890"
+}
+
+### Actualizar Paciente (PUT)
+http://localhost:5000/api/pacientes/<id>
+
+{
+  "nombre": "Jose Castro Actualizado",
+  "edad": 31
+}
+
+### Eliminar Paciente (DELETE)
+
+http://localhost:5000/api/pacientes/<id>
